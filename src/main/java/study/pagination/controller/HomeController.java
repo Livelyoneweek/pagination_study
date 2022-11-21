@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,17 +34,22 @@ public class HomeController {
     }
 
 
+//    @RequestParam("page") int page,
+//    @RequestParam("size") int size,
+//    @RequestParam("sortBy") String sortBy,
+//    @RequestParam("isAsc") boolean isAsc
+
     @GetMapping("/board/list")
-    public String home4(Model model, @RequestParam("page") int page,
-                        @RequestParam("size") int size,
-                        @RequestParam("sortBy") String sortBy,
-                        @RequestParam("isAsc") boolean isAsc) {
+    public String home4(Model model,@PageableDefault(page=0,size=10,sort="auditLogLogId",direction=Sort.Direction.ASC)Pageable pageable,
+                        @RequestParam(value = "searchKeyword" , required = false) String searchKeyword) {
 
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Page<AuditLog> auditLogs= null;
+        if (searchKeyword == null) {
+            auditLogs = auditLogRepository.findAll(pageable);
+        } else {
+            auditLogs = auditLogRepository.findBySignatureContaining(searchKeyword,pageable);
+        }
 
-        Page<AuditLog> auditLogs = auditLogRepository.findAll(pageable);
         log.info("auditLogs.getTotalPages()={}", auditLogs.getTotalPages());
         log.info("auditLogs.getNumber()={}", auditLogs.getNumber());
         log.info("auditLogs.getTotalElements()={}", auditLogs.getTotalElements());

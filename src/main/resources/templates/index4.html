@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>index4</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
+<label for="searchInput">
+    <input type="text" id="searchInput" name="searchKeyword">
+</label>
+<button onclick="search()">검색</button>
 
 <table class="table table-striped table-hover" style="table-layout: fixed">
     <thead class="table-light">
@@ -27,28 +33,92 @@
     </tbody>
 </table>
 
-<nav style="text-align: center;">
+<nav aria-label="Page navigation example">
     <ul class="pagination" th:with="start=${(auditLogs.number/maxPage)*maxPage + 1},
     end=(${(auditLogs.totalPages == 0) ? 1 : (start + (maxPage - 1) < auditLogs.totalPages ? start + (maxPage - 1) : auditLogs.totalPages)})">
-        <li th:if="${start > 1}">
-            <a th:href="@{/board/list(page=0)}" th:text="'<<'"></a>
-        </li>
-        <li th:if="${start > 1}">
-            <a th:href="@{/board/list(page=${start - maxPage})}" th:text="'<'"></a>
+
+        <li class="page-item" th:if="${start > 1}">
+            <a class="page-link" aria-label="Previous" th:href="@{/board/list(page=0)}" >
+                <span aria-hidden="true">처음</span>
+            </a>
         </li>
 
-        <li th:each="page: ${#numbers.sequence(start, end)}">
-            <a th:text="${page}" th:href="@{/board/list(page=${page - 1})}"></a>
+        <li class="page-item" th:if="${start > 1}">
+            <a class="page-link" aria-label="Previous" th:href="@{/board/list(page=${start - maxPage -1})}">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
         </li>
 
-        <li th:if="${end < auditLogs.totalPages}">
-            <a th:href="@{/board/list(page=${start + maxPage})}" th:text="'>'"></a>
+<!--        th:href="@{/board/list(page=${page - 1})}"-->
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
+            <a class="page-link target1" th:text="${page}" th:id="${page}" th:onclick="pagination(this.getAttribute('id'))"
+               th:style="${page == auditLogs.number+1? 'color:red;':''}">
+            </a>
+
         </li>
-        <li th:if="${end < auditLogs.totalPages}">
-            <a th:href="@{/board/list(page=${auditLogs.totalPages - 1})}" th:text="'>>'"></a>
+
+        <li class="page-item" aria-label="Next" th:if="${end < auditLogs.totalPages}">
+            <a class="page-link" th:href="@{/board/list(page=${start + maxPage - 1 })}">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <li class="page-item" aria-label="Next" th:if="${end < auditLogs.totalPages}">
+            <a class="page-link" th:href="@{/board/list(page=${auditLogs.totalPages - 1})}">
+                <span aria-hidden="true">끝</span>
+            </a>
         </li>
     </ul>
 </nav>
+<script th:inline="javascript">
+    "use strict";
 
+    let size = 10;
+    let sort = "auditLogLogId";
+    let direction = "Sort.Direction.ASC";
+    let isAsc = "ASC";
+
+    /*<![CDATA[*/
+    let searchKeyword = [[${param.searchKeyword}]];
+    /*]]>*/
+
+
+    function pagination(page) {
+        let count = page -1 ;
+
+        console.log(count);
+        // const xhr = new XMLHttpRequest();
+        // const method ="GET";
+        let url;
+        if (!searchKeyword) {
+           url = "/board/list"+"?"+"page="+count+"&size="+size+"&sort="+sort+"&direction="+direction+"&isAsc="+isAsc;
+        } else {
+            url = "/board/list"+"?"+"page="+count+"&size="+size+"&sort="+sort+"&direction="+direction+"&isAsc="+isAsc+"&searchKeyword="+searchKeyword;
+        }
+
+
+        // console.log(url)
+        location.href = url;
+        // xhr.open(method, url);
+        // xhr.send();
+    }
+
+    function search() {
+        let element= document.getElementById('searchInput');
+
+        searchKeyword = element.value;
+
+        let url;
+        if (!searchKeyword) {
+            url = "/board/list"+"?"+"&size="+size+"&sort="+sort+"&direction="+direction+"&isAsc="+isAsc;
+        } else {
+            url = "/board/list"+"?"+"&size="+size+"&sort="+sort+"&direction="+direction+"&isAsc="+isAsc+"&searchKeyword="+searchKeyword;
+        }
+        location.href = url;
+    }
+
+</script>
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/board.js"></script>
 </body>
 </html>

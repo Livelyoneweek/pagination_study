@@ -7,4 +7,6 @@ import study.pagination.domain.AuditLog;
 
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
     Page<AuditLog> findAll(Pageable pageable);
+
+    Page<AuditLog> findBySignatureContaining(String searchKeyword, Pageable pageable);
 }
