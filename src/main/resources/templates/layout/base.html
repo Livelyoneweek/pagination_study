@@ -14,21 +14,22 @@ lang="ko">
             box-sizing: border-box;
         }
 
-        body {background: #c8e6c9;}
-        #wrap {width: 100%; height: 900px; color: #fff;
-        display: flex; flex-direction: column;}
+        body {}
+        #wrap {width: 100%;  display: flex; flex-direction: column;}
         /*justify-content: center; flex-wrap: wrap; flex-direction: row; text-align: center*/
 
-        #header {width: 100%; height: 100px; display: flex; justify-content: space-between; align-items : center; background: #2e7d32;}
+        #header {width: 100%; height: 100px; display: flex; justify-content: space-between; align-items : center; background: #E0F8F7;}
         /*#nav {width: 100%; height: 100px; display: flex; justify-content: center; align-items : center; background: #388e3c;}*/
 
-        #middle {width: 100%; height: 600px; line-height: 600px;
+        #middle {width: 100%; height: 600px;
             display: flex; justify-content: space-between; flex-direction: row}
 
-        #side {width: 300px; height: 600px; background: #43a047;}
-        #contents {width: 700px; flex-grow: 1; height: 600px; background: #4caf50;}
+        #side {width: 250px; height: 600px; background-color: #ECF6CE;}
+        #contents {width: 700px; flex-grow: 1; height: 600px; padding: 10px 0 0 10px;
+            display: flex; flex-direction: column; justify-content: space-between;}
 
-        #footer {width: 100%; height: 100px; display: flex; justify-content: center; align-items : center; background: #66bb6a;}
+        #footer {width: 100%; display: flex; justify-content: center; align-items : center; background: black;
+        border: 1px solid black}
 
         .header {
 
@@ -48,6 +49,10 @@ lang="ko">
         .header-button {
             display: flex;
             flex-direction: row;
+        }
+
+        .accordion-button, .accordion-collapse, .accordion-item{
+            background-color: #ECF6CE;
         }
     </style>
 </head>
@@ -77,8 +82,48 @@ lang="ko">
 
         <div id="middle">
             <div id="side">
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                Home
+                            </button>
+                        </h2>
 
-                <h1> 여기 사이드 바</h1>
+                        <ul id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <li>홈으로 가기</li>
+                            <li>test1</li>
+                            <li>test1</li>
+                        </ul>
+<!--                        <div >-->
+<!--                            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>-->
+<!--                        </div>-->
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                                유저 관리
+                            </button>
+                        </h2>
+                        <ul id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                            <li>유저 리스트</li>
+                            <li>유저 등록</li>
+                            <li>개인정보 수정</li>
+                        </ul>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                                로그 테이블
+                            </button>
+                        </h2>
+
+                        <ul id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                            <li>로그 게시판</li>
+                            <li>로그 게시판2</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div th:replace="${content}" id="contents">
@@ -88,13 +133,14 @@ lang="ko">
 
 
 
-        <div id="footer">
-            <h1> 여기 footer 바</h1>
-        </div>
+        <div id="footer"></div>
     </div>
 
+    <script th:inline="javascript">
+        let searchKeyword = [[${param.searchKeyword}]];
+    </script>
 
 <script src="../js/bootstrap.bundle.min.js"></script>
-<script src="../js/custom.js"></script>
+<script src="../js/board.js"></script>
 </body>
 </html>

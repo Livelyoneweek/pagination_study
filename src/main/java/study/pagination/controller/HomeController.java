@@ -66,7 +66,8 @@ public class HomeController {
         model.addAttribute("auditLogs", auditLogs);
         model.addAttribute("maxPage", 10);
 
-        return "index4";
+//        return "index4";
+        return "/layout/home";
     }
 
     // http://localhost:8080/board/list?page=1&size=10&sortBy=auditLogLogId&isAsc=true
