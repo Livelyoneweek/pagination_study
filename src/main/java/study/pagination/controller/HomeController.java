@@ -33,6 +33,12 @@ public class HomeController {
         return "index3";
     }
 
+    @GetMapping("/5")
+    public String home5() {
+        System.out.println("test");
+        return "index5";
+    }
+
 
 //    @RequestParam("page") int page,
 //    @RequestParam("size") int size,

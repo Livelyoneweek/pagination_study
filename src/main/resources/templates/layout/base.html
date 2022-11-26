@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html th:fragment = "layout (title, content)" xmlns:th="http://www.thymeleaf.org"
+lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">기본 타이틀</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        * {
+            padding:0;
+            margin:0;
+            box-sizing: border-box;
+        }
+
+        body {background: #c8e6c9;}
+        #wrap {width: 100%; height: 900px; color: #fff;
+        display: flex; flex-direction: column;}
+        /*justify-content: center; flex-wrap: wrap; flex-direction: row; text-align: center*/
+
+        #header {width: 100%; height: 100px; display: flex; justify-content: space-between; align-items : center; background: #2e7d32;}
+        /*#nav {width: 100%; height: 100px; display: flex; justify-content: center; align-items : center; background: #388e3c;}*/
+
+        #middle {width: 100%; height: 600px; line-height: 600px;
+            display: flex; justify-content: space-between; flex-direction: row}
+
+        #side {width: 300px; height: 600px; background: #43a047;}
+        #contents {width: 700px; flex-grow: 1; height: 600px; background: #4caf50;}
+
+        #footer {width: 100%; height: 100px; display: flex; justify-content: center; align-items : center; background: #66bb6a;}
+
+        .header {
+
+        }
+
+        .header-text {
+            font-size: 40px;
+            border: 1px solid black;
+        }
+
+        .user-info-button, .logout-button {
+            width: 120px;
+            margin: 0 10px;
+            border: 1px solid black;
+        }
+
+        .header-button {
+            display: flex;
+            flex-direction: row;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wrap">
+
+        <div id="header">
+            <div class="header header-text">
+                <p>Crosscert</p>
+            </div>
+
+            <div class="header header-button">
+                <div class="user-info-button">
+                    <p>회원 정보 수정</p>
+                </div>
+
+                <div class="logout-button">
+                    <p>logout</p>
+                </div>
+            </div>
+        </div>
+
+<!--        <div id="nav">-->
+<!--            <h1> 여기 nav 바</h1>-->
+<!--        </div>-->
+
+        <div id="middle">
+            <div id="side">
+
+                <h1> 여기 사이드 바</h1>
+            </div>
+
+            <div th:replace="${content}" id="contents">
+                <p> 기본 컨텐츠</p>
+            </div>
+        </div>
+
+
+
+        <div id="footer">
+            <h1> 여기 footer 바</h1>
+        </div>
+    </div>
+
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/custom.js"></script>
+</body>
+</html>
